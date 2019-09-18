@@ -13,15 +13,15 @@ def g(theta, delta, x):
 	return f(x[0], x[1])
 
 def dg(theta, delta, x):
-	return -2 * delta[0] * (1 - x[0] - theta * delta[0]) + 100 * (delta[1] - delta[0])
+	return -2 * delta[0] * (1 - x[0] - theta * delta[0]) + 200 * (delta[1] - delta[0]) * (x[1] + theta * delta[1] - x[0] - theta * delta[0])
 
 def ddg(delta):
-	return 2 * delta[0]**2
+	return 2 * delta[0]**2 + 200 * (delta[1] - delta[0])**2
 
 def gd(x_0, e):
 	x_c = x_0
 	i = 0
-	while i < 10:
+	while 1:
 		i = i + 1
 		delta = -1 * df(x_c[0], x_c[1])
 		theta_c = 1
@@ -30,11 +30,13 @@ def gd(x_0, e):
 			theta_c = theta_new
 			print(dg(theta_c, delta, x_c))
 
-		print("theta: {}".format(theta_c))
+		
 		
 		x_new = x_c + theta_c * delta
 		x_c = x_new
-		print("Iteration: {}".format(i))		
+		plt.scatter(x_new[0], x_new[1])
+		print("Iteration: {}".format(i))
+		print("theta: {}".format(theta_c))		
 		print(x_new)
 		if np.linalg.norm(delta) < 0.01:
 			plt.show()
